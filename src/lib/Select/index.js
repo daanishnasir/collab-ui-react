@@ -48,8 +48,6 @@ class Select extends React.Component {
     e.preventDefault();
     const { selected, selectedIndex } = this.state;
     const { isMulti } = this.props;
-    //const isActive = selected.includes(value);
-
     const isActive = find(selected, {value, label});
 
     !isMulti && this.setState({ isOpen: false });
