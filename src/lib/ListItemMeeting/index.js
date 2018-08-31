@@ -7,7 +7,7 @@ import {
   Icon,
   Link,
   ListItem,
-  ListItemSection 
+  ListItemSection
 } from '@collab-ui/react';
 
 /**
@@ -32,13 +32,12 @@ class ListItemMeeting extends React.PureComponent {
 
     e.persist();
     anchorOnClick && anchorOnClick(e);
-    
     e.stopPropagation();
   }
 
   handleAnchorKeyDown = e => {
     if (
-      e.which === 32 
+      e.which === 32
         || e.which === 13
         || e.charCode === 32
         || e.charCode === 13
@@ -73,18 +72,23 @@ class ListItemMeeting extends React.PureComponent {
       anchorOnClick,
       childrenRight,
       className,
+      date,
       header,
+      includeDate,
       inProgress,
       isAllDay,
       isCompleted,
       isRecurring,
       popoverContent,
+      statusColor,
+      timeNode,
       time,
       title,
+      type,
       ...props
     } = this.props;
 
-    const { 
+    const {
       id,
       isOpen,
       offset
@@ -101,8 +105,20 @@ class ListItemMeeting extends React.PureComponent {
         : title;
 
     const getTime = () => {
-      if (isAllDay) {
+
+      if (timeNode) {
+        return timeNode;
+      } else if (isAllDay) {
         return <span>All day</span>;
+      } else if (includeDate && time.start) {
+        return (
+          [
+            <span key='date'>{date}</span>,
+            <span key='time'>{time.start + `${time.end ? ` - ${time.end}` : ''}`}</span>
+          ]
+        );
+      } else if (includeDate && date){
+        return <span>{date}</span>;
       } else if (time.start) {
         return [
           <span key='time-0'>{time.start}</span>,
@@ -112,19 +128,31 @@ class ListItemMeeting extends React.PureComponent {
     };
 
     const children = [
-      <ListItemSection key="child-0" position="left">
-        {inProgress && <span className='cui-list-item-meeting__progress-line'/>}
-        {getTime()}
+      <ListItemSection
+        key='child-0'
+        position='left'
+        inProgress={inProgress}
+        includeDate={includeDate}>
+          {
+            (inProgress || type === 'chip')
+              && <span
+                style={{
+                  ...statusColor && {backgroundColor: statusColor}
+                }}
+                className='cui-list-item-meeting__progress-line'
+              />
+          }
+          {getTime()}
       </ListItemSection>,
-      <ListItemSection key="child-1" position="center">
+      <ListItemSection key='child-1' position='center'>
         <div className='cui-list-item__header'>
           <span>{header}</span>
           {isRecurring && <Icon name='recurring_12'/>}
         </div>
-        <div className="cui-list-item__space-link">
+        <div className='cui-list-item__space-link'>
           {
-            anchorLabel 
-              && anchorOnClick 
+            anchorLabel
+              && anchorOnClick
               && <Link
                 tag='div'
                 onClick={this.handleAnchorClick}
@@ -133,15 +161,15 @@ class ListItemMeeting extends React.PureComponent {
                 title={anchorLabel}
               >
                 {anchorLabel}
-              </Link> 
+              </Link>
           }
         </div>
       </ListItemSection>,
-      <ListItemSection key="child-2" position="right">
+      <ListItemSection key='child-2' position='right'>
         {childrenRight}
       </ListItemSection>,
       <EventOverlay
-        key="child-3"
+        key='child-3'
         direction='right-center'
         isDynamic
         close={this.handleClickAway}
@@ -150,15 +178,15 @@ class ListItemMeeting extends React.PureComponent {
         targetOffset={{ horizontal: offset }}
         showArrow
         anchorNode={this.container}
-        checkOverflow={false} 
+        checkOverflow={false}
       />
     ];
-    
     return (
       <ListItem
         className={
           'cui-list-item-meeting' +
           `${isCompleted && ' cui-list-item-meeting--completed' || ''}` +
+          `${type  && ` cui-list-item-meeting--${type}` || ''}` +
           `${(className && ` ${className}`) || ''}`
         }
         id={id}
@@ -181,6 +209,7 @@ ListItemMeeting.defaultProps = {
   className: '',
   header: '',
   id: '',
+  includeDate: false,
   inProgress: false,
   isAllDay: false,
   isRecurring: false,
@@ -188,26 +217,33 @@ ListItemMeeting.defaultProps = {
   onClick: null,
   popoverContent: null,
   ratioOffset: -.4,
+  statusColor: null,
   time: {
     start: '',
     end: ''
   },
-  title: ''
+  timeNode: null,
+  title: '',
+  type: '',
 };
 
 ListItemMeeting.propTypes = {
   /** ListItemMeeting Anchor string */
   anchorLabel: PropTypes.string,
-  /** ListItemMeeting Anchor Click */  
+  /** ListItemMeeting Anchor Click */
   anchorOnClick: PropTypes.func,
   /** Children for right section */
   childrenRight: PropTypes.node,
   /** HTML Class for associated input */
   className: PropTypes.string,
+  /** Date string */
+  date: PropTypes.string,
   /** ListItem header */
   header: PropTypes.string.isRequired,
   /** HTML ID for associated input */
   id: PropTypes.string,
+  /** ListItemMeeting Boolean */
+  includeDate: PropTypes.bool,
   /** ListItemMeeting Boolean */
   inProgress: PropTypes.bool,
   /** ListItemMeeting Boolean */
@@ -216,19 +252,25 @@ ListItemMeeting.propTypes = {
   isRecurring: PropTypes.bool,
   /** ListItemMeeting Boolean */
   isCompleted: PropTypes.bool,
-  /** ListItemMeeting OnClick */  
+  /** ListItemMeeting OnClick */
   onClick: PropTypes.func,
   /** ListItemMeeting Popover Content */
   popoverContent: PropTypes.node,
   /** EventOverlay Ratio of Offset */
   ratioOffset: PropTypes.number,
+  /** Status Color  */
+  statusColor: PropTypes.string,
   /** Time Object */
   time: PropTypes.shape({
     start: PropTypes.string,
     end: PropTypes.string
   }),
+  /** Time Node */
+  timeNode: PropTypes.node,
   /** ListItem title */
   title: PropTypes.string,
+  /** Type  */
+  type: PropTypes.oneOf(['chip', '']),
 };
 
 
@@ -243,7 +285,7 @@ export default ListItemMeeting;
 *
 * @js
 *
-import { Avatar, List, ListItemMeeting, ListItemHeader, Icon } from '@collab-ui/react';
+import { Avatar, List, ListItemMeeting, ListItemHeader, ListSeparator, Icon } from '@collab-ui/react';
 
 export default class SpaceListExamples extends React.PureComponent {
 
@@ -251,20 +293,37 @@ export default class SpaceListExamples extends React.PureComponent {
     return(
       <div style={{ width: '840px' }}>
         <List>
-          <ListItemMeeting 
+          <ListItemMeeting
             isAllDay
             header='ListItemMeeting (isAllDay)'
             anchorLabel='SpaceString'
             anchorOnClick={() => console.log('anchor clicked')}
             childrenRight={<Avatar title='NA'/>} popoverContent={'test'}
           />
+
+          <ListSeparator />
+
           <ListItemMeeting
-            time={{start: '5:00PM', end: '10:00PM'}}
-            header='ListItemMeeting (time object)'
+            isAllDay
+            header='ListItemMeeting (isAllDay)'
             anchorLabel='SpaceString'
             anchorOnClick={() => console.log('anchor clicked')}
             childrenRight={<Avatar title='NA'/>} popoverContent={'test'}
           />
+
+          <ListSeparator text='Yesterday' />
+
+          <ListItemMeeting
+            time={{start: '5:00PM', end: '10:00PM'}}
+            header='ListItemMeeting (time object)'
+            isRecurring
+            anchorLabel='SpaceString'
+            anchorOnClick={() => console.log('anchor clicked')}
+            childrenRight={<Avatar title='NA'/>} popoverContent={'test'}
+          />
+
+          <ListSeparator lineColor='red' margin='40px 0' />
+
           <ListItemMeeting
             time={{start: '5:00PM', end: '10:00PM'}}
             inProgress
@@ -274,17 +333,30 @@ export default class SpaceListExamples extends React.PureComponent {
             childrenRight={<Avatar title='NA'/>}
             popoverContent={'test'}
           />
+
+          <ListSeparator text="Padding" textPadding='0 40px' />
+
           <ListItemMeeting
-            time={{start: '5:00PM', end: '10:00PM'}}
-            isRecurring
-            header='ListItemMeeting (isRecurring)'
-            anchorLabel='SpaceString'
-            anchorOnClick={() => console.log('anchor clicked')}
-            childrenRight={<Avatar title='NA'/>}
-            popoverContent={'test'}
+            includeDate={true}
+            date='January 24, 2018'
+            time={{start: '10:00 AM', end: '11:00 AM'}}
+
+            header="Finish presentation on focus areas"
           />
-          <ListItemMeeting 
-            time={{start: '5:00PM', end: '10:00PM'}}
+          <ListItemMeeting
+            inProgress
+            type='chip'
+            includeDate={true}
+            date='January 25, 2018'
+            time={{start: '3:00PM', end: '4:00PM'}}
+            header="I'm a flagged meeting"
+          />
+
+          <ListSeparator text='Text Color' textColor='orange' lineColor='red' />
+
+          <ListItemMeeting
+            includeDate={true}
+            date='March 2, 2019'
             isRecurring
             isCompleted
             header='ListItemMeeting (isCompleted)'

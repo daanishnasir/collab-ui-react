@@ -8,25 +8,67 @@ import PropTypes from 'prop-types';
  */
 
 const ListSeparator = props => {
-  const { text } = props;
+  const {
+    children,
+    className,
+    lineColor,
+    margin,
+    textColor,
+    text,
+    textPadding,
+    ...otherProps
+  } = props;
 
   return (
     <div
       className={
-        `cui-list-separator` + 
-        `${text ? ' cui-list-separator--text' : ''}`
-      }>
-      {text && <p className='cui-list-separator__text'>{text}</p>}
+        'cui-list-separator' +
+        `${className && ` ${className}` || ''}`
+      }
+      style={{
+        ...lineColor && {color: lineColor},
+        ...margin && {margin: margin},
+      }}
+      {...otherProps}
+    >
+
+    <span className="cui-list-separator__container">
+      {
+        children || text
+        &&
+          <span
+            className='cui-list-separator__text'
+            style={{
+              ...textColor && {color: textColor},
+              ...textPadding && {padding: textPadding},
+            }}
+          >
+            {children ? children : text}
+          </span>
+      }
+      </span>
     </div>
   );
 };
 
 ListSeparator.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  lineColor: PropTypes.string,
+  margin: PropTypes.string,
   text: PropTypes.string,
+  textColor: PropTypes.string,
+  textPadding:PropTypes.string,
 };
 
 ListSeparator.defaultProps = {
+  children: null,
+  className: null,
+  lineColor: null,
+  margin: null,
   text: null,
+  textColor: null,
+  textPadding: null,
 };
 
 ListSeparator.displayName = 'ListSeparator';

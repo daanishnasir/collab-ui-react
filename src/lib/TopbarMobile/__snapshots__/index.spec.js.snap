@@ -58,7 +58,12 @@ ShallowWrapper {
             type=""
           />
           <ListSeparator
+            className={null}
+            lineColor={null}
+            margin={null}
             text={null}
+            textColor={null}
+            textPadding={null}
           />
           <nav
             className="cui-tb-mobile__nav"
@@ -117,7 +122,12 @@ ShallowWrapper {
             />,
             null,
             <ListSeparator
+              className={null}
+              lineColor={null}
+              margin={null}
               text={null}
+              textColor={null}
+              textPadding={null}
             />,
             <nav
               className="cui-tb-mobile__nav"
@@ -159,7 +169,13 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
+              "children": null,
+              "className": null,
+              "lineColor": null,
+              "margin": null,
               "text": null,
+              "textColor": null,
+              "textPadding": null,
             },
             "ref": null,
             "rendered": null,
@@ -239,7 +255,12 @@ ShallowWrapper {
               type=""
             />
             <ListSeparator
+              className={null}
+              lineColor={null}
+              margin={null}
               text={null}
+              textColor={null}
+              textPadding={null}
             />
             <nav
               className="cui-tb-mobile__nav"
@@ -298,7 +319,12 @@ ShallowWrapper {
               />,
               null,
               <ListSeparator
+                className={null}
+                lineColor={null}
+                margin={null}
                 text={null}
+                textColor={null}
+                textPadding={null}
               />,
               <nav
                 className="cui-tb-mobile__nav"
@@ -340,7 +366,13 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
+                "children": null,
+                "className": null,
+                "lineColor": null,
+                "margin": null,
                 "text": null,
+                "textColor": null,
+                "textPadding": null,
               },
               "ref": null,
               "rendered": null,

@@ -95,9 +95,11 @@ class List extends React.Component {
           : currentIdx + idx + 1;
 
         const label =
-          arr[index].props.role === 'listItem' || arr[index].type.displayName === 'SelectOption'
-            ? arr[index].props.label
-            : arr[index].props.header;
+          arr[index].type.displayName === "ListSeparator"
+            ? arr[index+1].props.label || arr[index+1].props.header
+            : arr[index].props.role === 'listItem' || arr[index].type.displayName === 'SelectOption'
+              ? arr[index].props.label
+              : arr[index].props.header;
 
         return (
           !agg.length
@@ -111,7 +113,9 @@ class List extends React.Component {
       []
     );
 
-    !isNaN(newIndex[0]) && this.setFocus(newIndex[0]);
+    children[newIndex[0]].type.displayName === 'ListSeparator' && !isNaN(newIndex[0])
+      ? this.setFocus(newIndex[0]+1)
+      : !isNaN(newIndex[0]) && this.setFocus(newIndex[0]);
   };
 
   handleListKeyDown = (e, idx) => {
@@ -136,7 +140,7 @@ class List extends React.Component {
       const possibleIndex = getPossibleIndex();
       const potentialTarget = React.Children.toArray(this.props.children)[possibleIndex];
 
-      return (potentialTarget.props.disabled || potentialTarget.props.isReadOnly)
+      return (potentialTarget.props.disabled || potentialTarget.props.isReadOnly || potentialTarget.type.displayName === "ListSeparator")
         ? getNewIndex(possibleIndex, change)
         : possibleIndex;
     };

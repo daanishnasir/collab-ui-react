@@ -1,3 +1,52 @@
+# [9.2.0](https://github.com/collab-ui/collab-ui-react/compare/v9.1.0...v9.2.0) (2018-08-27)
+
+
+### Bug Fixes
+
+* **EditableTextfield:** persist event ([601d919](https://github.com/collab-ui/collab-ui-react/commit/601d919))
+
+
+### Features
+
+* **Popover:** on hover popover will remain open if children are hovered ([9523879](https://github.com/collab-ui/collab-ui-react/commit/9523879))
+
+# [9.1.0](https://github.com/collab-ui/collab-ui-react/compare/v9.0.0...v9.1.0) (2018-08-27)
+
+
+### Bug Fixes
+
+* **listItemMeeting:** switch inline style to classname ([e7fb7c8](https://github.com/collab-ui/collab-ui-react/commit/e7fb7c8))
+* **ListItemMeeting:** add date and status color prop ([b78b3af](https://github.com/collab-ui/collab-ui-react/commit/b78b3af))
+* **ListItemMeeting:** remove changes ListItemSection, add props: marginLeft, marginRight prop, dateColor ([4115da4](https://github.com/collab-ui/collab-ui-react/commit/4115da4))
+* **ListItemMeeting:** show spacing when inProgress and date ([9a71d02](https://github.com/collab-ui/collab-ui-react/commit/9a71d02))
+* **ListSeparator:** add lineColor, textPadding, children, & textColor props, create test file with tests ([f22fe7e](https://github.com/collab-ui/collab-ui-react/commit/f22fe7e))
+* **ListSeparator:** add margin prop, fix ternary, add css variable ([7fa4c22](https://github.com/collab-ui/collab-ui-react/commit/7fa4c22))
+* **ListSeparator:** fix props to spread ([03217b8](https://github.com/collab-ui/collab-ui-react/commit/03217b8))
+* **ListSeparator:** replace css variable to current color ([828419f](https://github.com/collab-ui/collab-ui-react/commit/828419f))
+* **ListSeparator:** set focus on alphakey ([d6dd3a2](https://github.com/collab-ui/collab-ui-react/commit/d6dd3a2))
+
+
+### Features
+
+* **ListItemMeeting:** add type prop ([8305d38](https://github.com/collab-ui/collab-ui-react/commit/8305d38))
+
+# [9.0.0](https://github.com/collab-ui/collab-ui-react/compare/v8.6.0...v9.0.0) (2018-08-24)
+
+
+### Bug Fixes
+
+* **EventOverlay:** allow inputs with esc/enter key events ([d934b58](https://github.com/collab-ui/collab-ui-react/commit/d934b58))
+
+
+### Code Refactoring
+
+* **EditableTextField:** remove console log ([3838c84](https://github.com/collab-ui/collab-ui-react/commit/3838c84))
+
+
+### BREAKING CHANGES
+
+* **EditableTextField:** EditTextfield now return (event {value}) from handleDoneEditingfunction.
+
 # [8.6.0](https://github.com/collab-ui/collab-ui-react/compare/v8.5.0...v8.6.0) (2018-08-16)
 
 
