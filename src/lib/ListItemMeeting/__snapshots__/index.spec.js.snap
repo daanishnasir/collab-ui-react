@@ -8,6 +8,7 @@ ShallowWrapper {
     anchorOnClick={null}
     childrenRight={null}
     className=""
+    eventOverlayProps={null}
     header="testHeader"
     id=""
     inProgress={false}
@@ -77,6 +78,7 @@ ShallowWrapper {
           className=""
           close={[Function]}
           direction="right-center"
+          isContained={false}
           isDynamic={true}
           isOpen={false}
           maxHeight={null}
@@ -227,6 +229,7 @@ ShallowWrapper {
           "className": "",
           "close": [Function],
           "direction": "right-center",
+          "isContained": false,
           "isDynamic": true,
           "isOpen": false,
           "maxHeight": null,
@@ -286,6 +289,7 @@ ShallowWrapper {
             className=""
             close={[Function]}
             direction="right-center"
+            isContained={false}
             isDynamic={true}
             isOpen={false}
             maxHeight={null}
@@ -436,6 +440,7 @@ ShallowWrapper {
             "className": "",
             "close": [Function],
             "direction": "right-center",
+            "isContained": false,
             "isDynamic": true,
             "isOpen": false,
             "maxHeight": null,

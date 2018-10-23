@@ -5,7 +5,7 @@ import {
   Avatar,
   Icon,
   ListItem,
-  ListItemSection 
+  ListItemSection
 } from '@collab-ui/react';
 
 /**
@@ -18,9 +18,7 @@ class SpaceListItem extends React.PureComponent {
   static displayName = 'SpaceListItem';
 
   state = {
-    id: uniqueId(
-      (this.props.id && `${this.props.id}-`) || 'cui-space-list-item-'
-    )
+    id: this.props.id || uniqueId('cui-space-list-item-')
   };
 
   render() {
@@ -34,6 +32,7 @@ class SpaceListItem extends React.PureComponent {
       highlightColor,
       isAlertOn,
       isBold,
+      isDecrypting,
       isMentioned,
       isMuted,
       isOverview,
@@ -71,7 +70,7 @@ class SpaceListItem extends React.PureComponent {
       return null;
     };
 
-    const leftSection = isOverview 
+    const leftSection = isOverview
       ? (
         <Avatar isOverview icon={<Icon name="handset_24" />} />
       ) : (
@@ -94,7 +93,7 @@ class SpaceListItem extends React.PureComponent {
       return searchTerm && typeof subheader === 'string'
         ? subheader.split(re)
           .map((ele, idx) =>
-            ele.match(re) 
+            ele.match(re)
               ? (
                 <span
                   key={`subheader-${idx}`}
@@ -115,7 +114,7 @@ class SpaceListItem extends React.PureComponent {
       return searchTerm && typeof header === 'string'
         ? header.split(re)
           .map((ele, idx) =>
-            ele.match(re) 
+            ele.match(re)
               ? (
                 <span
                   key={`header-${idx}`}
@@ -148,18 +147,19 @@ class SpaceListItem extends React.PureComponent {
         <div
           className={
             'cui-list-item__header' +
-            `${((searchTerm || isOverview) && ` cui-list-item__header--overview`) || ''}`
+            `${((searchTerm || isOverview) && ` cui-list-item__header--overview`) || ''}` +
+            `${(isDecrypting && ` cui-decrypting`) || ''}`
           }
         >
           {getHeader}
         </div>
-        {['search', 'filter', 'flag', 'filter-search'].includes(type) 
+        {['search', 'filter', 'flag', 'filter-search'].includes(type)
           ? (
             <ListItemSection
               position="center"
               className="cui-list-item__result-container"
             >
-              {['flag'].includes(type) 
+              {['flag'].includes(type)
                 ? (
                   <ListItemSection
                     position="center"
@@ -195,8 +195,15 @@ class SpaceListItem extends React.PureComponent {
               }
             </ListItemSection>
           ) : (
-            <div className="cui-list-item__subheader">{subheader}</div>
-          )
+              <div
+                className={
+                  "cui-list-item__subheader" +
+                  `${(isDecrypting && ` cui-decrypting`) || ''}`
+                }
+              >
+                {subheader}
+              </div>
+            )
         }
       </ListItemSection>,
       ...(!type ? [rightSection] : [])
@@ -230,6 +237,7 @@ SpaceListItem.defaultProps = {
   id: '',
   isAlertOn: false,
   isBold: false,
+  isDecrypting: false,
   isOverview: false,
   isMentioned: false,
   isMuted: false,
@@ -260,6 +268,8 @@ SpaceListItem.propTypes = {
   isAlertOn: PropTypes.bool,
   /** SpaceListItem Boolean */
   isBold: PropTypes.bool,
+  /** SpaceListItem Boolean */
+  isDecrypting: PropTypes.bool,
   /** SpaceListItem Boolean */
   isOverview: PropTypes.bool,
   /** SpaceListItem Boolean */
@@ -327,6 +337,52 @@ export default class SpaceListExamples extends React.PureComponent {
           <SpaceListItem header='Type(flag)-attachments' attachments={[<span><Icon name='document_12' />  <span>Ideas.pdf</span></span>]} subheader='resultRight=node, attachments=[node]' headerSecondary='12/03/2018' type='flag' resultRight={<Icon name='flag-active_12'/>}/>
           <SpaceListItem header='Type(flag)' subheader='header&subheader=node' headerSecondary='08/03/2018' type='flag' resultRight={<Icon name='flag-active_12'/>}/>
         </List>
+      </div>
+    );
+  }
+}
+**/
+
+/**
+* @name Contrast Space List
+*
+* @category containers
+* @component list-item
+* @section space-contrast
+*
+* @js
+*
+import { List, SpaceListItem, ListItemHeader, Icon } from '@collab-ui/react';
+import { NavLink } from 'react-router-dom';
+
+export default class SpaceListExamples extends React.PureComponent {
+
+  render() {
+    const anchorNode = <NavLink to='/containers/list-item' />;
+    return(
+      <div className="medium-4 columns">
+        <div className="cui--contrast">
+          <List style={{backgroundColor: 'black'}}>
+            <SpaceListItem isOverview header='Overview Item' />
+            <SpaceListItem header='Header Only'/>
+            <SpaceListItem header='Bold Unread' isBold isUnread/>
+            <SpaceListItem header='Bold Mentioned' isBold isMentioned/>
+            <SpaceListItem header='isAlertOn' isAlertOn/>
+            <SpaceListItem header='isMuted' isMuted/>
+            <SpaceListItem header='Disabled' subheader='subheader' disabled/>
+            <SpaceListItem header='Subheader as Node' subheader={<span style={{color: '#98D5CA'}}>Marketing</span>}/>
+            <ListItemHeader header='List Header-Type(space)' children={<a>More</a>} type='space'/>
+            <SpaceListItem header='Header with SearchTerm' searchTerm='search'/>
+            <SpaceListItem header='Both Headers w/ SearchTerm' subheader='Searchable subheader' searchTerm='search'/>
+            <SpaceListItem header='Subheader(node)-searchTerm' subheader={<span style={{color: '#D7ABE1'}}>Searching</span>} searchTerm='search'/>
+            <SpaceListItem header='Type(search)' headerSecondary='16:00' subheader='HighlightColor changes search color' searchTerm='search' type='search' highlightColor='white'/>
+            <SpaceListItem header='Type(filter)' headerSecondary='12/03/2018' subheader='headerSecondary=string' searchTerm='Barbara' type='filter' />
+            <SpaceListItem header='Type(filter-search)' headerSecondary='12/03/2018' subheader='For search after a (filter)' type='filter-search' searchTerm='(filter)'/>
+            <SpaceListItem header='Type(filter-summary) (8)' type='filter-summary' childrenLeft={<Icon name='alert_12' />}/>
+            <SpaceListItem header='Type(flag)-attachments' attachments={[<span><Icon name='document_12' />  <span>Ideas.pdf</span></span>]} subheader='resultRight=node, attachments=[node]' headerSecondary='12/03/2018' type='flag' resultRight={<Icon name='flag-active_12'/>}/>
+            <SpaceListItem header='Type(flag)' subheader='header&subheader=node' headerSecondary='08/03/2018' type='flag' resultRight={<Icon name='flag-active_12'/>}/>
+          </List>
+        </div>
       </div>
     );
   }

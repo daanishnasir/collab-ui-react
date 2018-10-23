@@ -1,3 +1,101 @@
+# [9.8.0](https://github.com/collab-ui/collab-ui-react/compare/v9.7.3...v9.8.0) (2018-10-12)
+
+
+### Bug Fixes
+
+* **Topbar:** remove row class ([4ea235c](https://github.com/collab-ui/collab-ui-react/commit/4ea235c))
+
+
+### Features
+
+* **contrast:** displaying contrast versions in the docs ([cab36bc](https://github.com/collab-ui/collab-ui-react/commit/cab36bc))
+* **SideNav:** add ability to pass in node for expandable section ([07a2c34](https://github.com/collab-ui/collab-ui-react/commit/07a2c34))
+
+## [9.7.3](https://github.com/collab-ui/collab-ui-react/compare/v9.7.2...v9.7.3) (2018-10-11)
+
+
+### Bug Fixes
+
+* **avatar:** add hover/pressed states when clickable ([cfcfbb9](https://github.com/collab-ui/collab-ui-react/commit/cfcfbb9))
+
+## [9.7.2](https://github.com/collab-ui/collab-ui-react/compare/v9.7.1...v9.7.2) (2018-10-04)
+
+
+### Bug Fixes
+
+* **TopBar:** remove row class for alignment issues when TopBarNav not present ([e85f0d8](https://github.com/collab-ui/collab-ui-react/commit/e85f0d8))
+
+## [9.7.1](https://github.com/collab-ui/collab-ui-react/compare/v9.7.0...v9.7.1) (2018-10-01)
+
+
+### Bug Fixes
+
+* **Button:** prevent active styles if disabled ([b600814](https://github.com/collab-ui/collab-ui-react/commit/b600814))
+
+# [9.7.0](https://github.com/collab-ui/collab-ui-react/compare/v9.6.0...v9.7.0) (2018-09-26)
+
+
+### Features
+
+* **ContentItem:** add ContentItem component ([98cea7f](https://github.com/collab-ui/collab-ui-react/commit/98cea7f))
+
+# [9.6.0](https://github.com/collab-ui/collab-ui-react/compare/v9.5.0...v9.6.0) (2018-09-19)
+
+
+### Bug Fixes
+
+* **TimePicker:** call onChange callback when new time is typed ([023b0d1](https://github.com/collab-ui/collab-ui-react/commit/023b0d1))
+
+
+### Features
+
+* **popover:** add custom hover delay ([3001c55](https://github.com/collab-ui/collab-ui-react/commit/3001c55))
+
+# [9.5.0](https://github.com/collab-ui/collab-ui-react/compare/v9.4.0...v9.5.0) (2018-09-14)
+
+
+### Features
+
+* **ListItemMeeting:** add prop to overwrite default Event Overlay props ([c2719ab](https://github.com/collab-ui/collab-ui-react/commit/c2719ab))
+
+# [9.4.0](https://github.com/collab-ui/collab-ui-react/compare/v9.3.2...v9.4.0) (2018-09-12)
+
+
+### Bug Fixes
+
+* **AlertCall:** allow id prop to be applied without modification ([4052ada](https://github.com/collab-ui/collab-ui-react/commit/4052ada))
+* **ListItem:** allow id prop to be applied without modification ([ebc777a](https://github.com/collab-ui/collab-ui-react/commit/ebc777a))
+* **ListItemHeader:** allow id prop to be applied without modification ([f5928e4](https://github.com/collab-ui/collab-ui-react/commit/f5928e4))
+* **ListItemHeader:** allow subcomponents of Header to be interacted with ([14849e4](https://github.com/collab-ui/collab-ui-react/commit/14849e4))
+* **ListItemMeeting:** allow id prop to be applied without modification ([ff7e160](https://github.com/collab-ui/collab-ui-react/commit/ff7e160))
+* **SelectOption:** allow id prop to be applied without modification ([0de9a34](https://github.com/collab-ui/collab-ui-react/commit/0de9a34))
+* **SpaceListItem:** allow id prop to be applied without modification ([c1e9431](https://github.com/collab-ui/collab-ui-react/commit/c1e9431))
+* **SpaceListMeeting:** allow id prop to be applied without modification ([c29ceb5](https://github.com/collab-ui/collab-ui-react/commit/c29ceb5))
+* **SpaceListMeeting:** change attendees interaction to hover ([e63e298](https://github.com/collab-ui/collab-ui-react/commit/e63e298))
+
+
+### Features
+
+* **Avatar:** add isDecrypting prop ([396c780](https://github.com/collab-ui/collab-ui-react/commit/396c780))
+* **ComboBox:** allow ListItemHeader to be passed as child ([8ff75d7](https://github.com/collab-ui/collab-ui-react/commit/8ff75d7))
+* **EventOverlay:** add props to contain content in document/overflow ([611498a](https://github.com/collab-ui/collab-ui-react/commit/611498a))
+* **SpaceListItem:** add isDecrypting prop ([fca45e5](https://github.com/collab-ui/collab-ui-react/commit/fca45e5))
+
+## [9.3.2](https://github.com/collab-ui/collab-ui-react/compare/v9.3.1...v9.3.2) (2018-09-07)
+
+
+### Bug Fixes
+
+* **Popover:** clear timeout on mouse leave ([c7d9c0e](https://github.com/collab-ui/collab-ui-react/commit/c7d9c0e))
+
+## [9.3.1](https://github.com/collab-ui/collab-ui-react/compare/v9.3.0...v9.3.1) (2018-09-05)
+
+
+### Bug Fixes
+
+* **TimePicker:** switch from defaultValue to value ([e4bb22f](https://github.com/collab-ui/collab-ui-react/commit/e4bb22f))
+* **TimePicker:** update callback function in setstate ([e740b47](https://github.com/collab-ui/collab-ui-react/commit/e740b47))
+
 # [9.3.0](https://github.com/collab-ui/collab-ui-react/compare/v9.2.0...v9.3.0) (2018-09-03)
 
 

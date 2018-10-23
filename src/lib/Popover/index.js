@@ -86,11 +86,13 @@ class Popover extends React.Component {
   };
 
   delayCheckHover = e => {
+    const { hoverDelay } = this.props;
+
     e.persist();
 
     this.setState(
       { isHovering: false },
-      () => setTimeout(() => this.delayedHide(e), 500)
+      () => setTimeout(() => this.delayedHide(e), hoverDelay)
     );
   }
 
@@ -98,6 +100,11 @@ class Popover extends React.Component {
     const { children } = this.props;
     if (this.hasFocus) {
       return false;
+    }
+
+    if (this.showTimerId) {
+      clearTimeout(this.showTimerId);
+      this.showTimerId = null;
     }
 
     children.props.onMouseLeave && children.props.onMouseLeave(e);
@@ -132,9 +139,9 @@ class Popover extends React.Component {
     const { isOpen } = this.state;
 
     this.hasFocus = true;
-    
+
     children.props.onFocus && children.props.onFocus(e);
-    
+
     if(!this.showTimerId) {
       return !isOpen
         ? this.delayedShow(e)
@@ -148,6 +155,7 @@ class Popover extends React.Component {
       children,
       className,
       content,
+      overflowType,
       popoverTrigger,
       showArrow,
       ...props
@@ -157,6 +165,7 @@ class Popover extends React.Component {
       'delay',
       'doesAnchorToggle',
       'hideDelay',
+      'hoverDelay',
       'onClose',
       'showDelay',
     ]);
@@ -177,7 +186,7 @@ class Popover extends React.Component {
 
         case 'Click':
           triggerProps.onClick = this.handleClick;
-          
+
           triggerProps.onBlur = null;
           triggerProps.onFocus = null;
           triggerProps.onMouseEnter = null;
@@ -210,17 +219,21 @@ class Popover extends React.Component {
           isOpen={isOpen}
           ref={ref => this.overlay = ref}
           showArrow={showArrow}
-          onMouseEnter={() => {
-            this.setState({isHovering: true, isOpen: true});
-          }}
-          onMouseLeave={e => {
-            e.persist();
-
-            this.setState(
-              {isHovering: false}
-              , () => this.delayedHide(e)
-            );
-          }}
+          style={
+            { overflow: overflowType }
+          }
+          {...popoverTrigger === 'MouseEnter' && {
+            onMouseEnter: () => {
+              this.setState({isHovering: true, isOpen: true});
+            },
+            onMouseLeave: e => {
+              e.persist();
+              this.setState(
+                {isHovering: false}
+                , () => this.delayedHide(e)
+              );
+            }}
+          }
           {...otherProps}
         >
           {content}
@@ -235,7 +248,9 @@ Popover.defaultProps = {
   delay: 0,
   doesAnchorToggle: true,
   hideDelay: 0,
+  hoverDelay: 500,
   onClose: null,
+  overflowType: 'auto',
   popoverTrigger: 'MouseEnter',
   showArrow: true,
   showDelay: 0,
@@ -267,9 +282,17 @@ Popover.propTypes = {
    */
   hideDelay: PropTypes.number,
   /**
+   * the hover delay for checking whether we are still hovering before closing
+   */
+  hoverDelay: PropTypes.number,
+  /**
    * optional function that will execute on close
    */
   onClose: PropTypes.func,
+  /**
+   * optional prop that controls overflow css style of EventOverlay
+   */
+  overflowType: PropTypes.string,
   /**
    * Event that will trigger popover appearance
    */
@@ -302,7 +325,7 @@ export default Popover;
  export default function Default() {
 
   const content = (
-    <span key="1" style={{ padding: '10px'}}>Popover Top</span>
+    <span key="1" style={{ padding: '10px' }}>Popover Top</span>
   );
 
   return (
@@ -485,7 +508,7 @@ export default Popover;
 } from '@collab-ui/react';
 
  export default function PopOverFocus() {
-   
+
   const contentLeft = (
     <span key="1" style={{ padding: '10px'}}>Popover Left</span>
   );
@@ -533,6 +556,610 @@ export default Popover;
           />
         </Popover>
 
+      </div>
+    </div>
+  );
+}
+**/
+
+/**
+* @name Popover with Size Constraints
+*
+* @category communication
+* @component popover
+* @section sizing
+*
+* @js
+
+ import {
+  Button
+} from '@collab-ui/react';
+
+ export default function Default() {
+
+  const medium = (
+    <span key="1" style={{ height: '1800px' }}>Popover(height: 1800px)</span>
+  );
+
+  const short = (
+    <span key="1" style={{ height: '500px' }}>Popover(height: 500px)</span>
+  );
+
+  const tall = (
+    <span key="1" style={{ height: '3000px' }}>Popover(height: 3000px)</span>
+  );
+
+  const wide = (
+    <span key="1" style={{ height: '1900px', width: '1600px' }}>Popover(height: 1900px, width: 1600px)</span>
+  );
+
+  return (
+    <div className='row'>
+      <div className="docs-example docs-example--spacing">
+
+        <h3>
+          Props
+          <p><code className="small">direction=(top-center)</code></p>
+          <p><code className="small">isContained=(true)</code></p>
+          <p><code className="small">popoverTrigger=(Click)</code></p>
+        </h3>
+        <Popover
+          isContained
+          content={tall}
+          direction={'top-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Tall' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          direction={'top-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 0 }}
+        >
+          <Button children='Tall-NoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          showArrow={false}
+          direction={'top-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Tall-NoArrow' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          showArrow={false}
+          direction={'top-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 0 }}
+        >
+          <Button children='Tall-NoArrowNoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          direction={'top-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Wide' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={short}
+          direction={'top-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Short' ariaLabel='Click' />
+        </Popover>
+
+      </div>
+      <div className="docs-example docs-example--spacing">
+
+        <h3>
+          Props
+          <p><code className="small">direction=(right-center)</code></p>
+          <p><code className="small">isContained=(true)</code></p>
+          <p><code className="small">popoverTrigger=(Click)</code></p>
+        </h3>
+        <Popover
+          isContained
+          content={wide}
+          direction={'right-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Tall' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          direction={'right-center'}
+          popoverTrigger={'Click'}
+        >
+          <Button children='Wide-NoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          showArrow={false}
+          direction={'right-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Wide-NoArrow' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          showArrow={false}
+          direction={'right-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 0 }}
+        >
+          <Button children='Wide-NoArrowNoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          direction={'right-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Wide' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          direction={'right-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Tall' ariaLabel='Click' />
+        </Popover>
+
+      </div>
+      <div className="docs-example docs-example--spacing">
+
+        <h3>
+          Props
+          <p><code className="small">direction=(left-center)</code></p>
+          <p><code className="small">isContained=(true)</code></p>
+          <p><code className="small">popoverTrigger=(Click)</code></p>
+        </h3>
+        <Popover
+          isContained
+          content={wide}
+          direction={'left-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Tall' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          direction={'left-center'}
+          popoverTrigger={'Click'}
+        >
+          <Button children='Wide-NoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          showArrow={false}
+          direction={'left-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Wide-NoArrow' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          showArrow={false}
+          direction={'left-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 0 }}
+        >
+          <Button children='Wide-NoArrowNoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          direction={'left-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Wide' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          direction={'left-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30, horizontal: 30 }}
+        >
+          <Button children='Tall' ariaLabel='Click' />
+        </Popover>
+
+      </div>
+      <div className="docs-example docs-example--spacing">
+
+         <h3>
+          Props
+          <p><code className="small">direction=(bottom-center)</code></p>
+          <p><code className="small">isContained=(true)</code></p>
+          <p><code className="small">popoverTrigger=(Click)</code></p>
+        </h3>
+        <Popover
+          isContained
+          content={tall}
+          direction={'bottom-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Tall' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          direction={'bottom-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 0 }}
+        >
+          <Button children='Tall-NoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          showArrow={false}
+          direction={'bottom-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Tall-NoArrow' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={tall}
+          showArrow={false}
+          direction={'bottom-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 0 }}
+        >
+          <Button children='Tall-NoArrowNoOffset' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={wide}
+          direction={'bottom-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Wide' ariaLabel='Click' />
+        </Popover>
+        <Popover
+          isContained
+          content={short}
+          direction={'bottom-center'}
+          popoverTrigger={'Click'}
+          targetOffset={{ vertical: 30 }}
+        >
+          <Button children='Short' ariaLabel='Click' />
+        </Popover>
+
+      </div>
+
+
+      <h3>Overflow Container</h3>
+      <div
+        className="docs-example docs-example--spacing"
+        style={{
+          border: '2px solid #666666',
+          width: '100%',
+          height: '500px',
+          overflow: 'scroll',
+          padding: '125px'
+        }}
+      >
+        <div className="docs-example docs-example--spacing">
+
+          <h3>
+            Props
+            <p><code className="small">direction=(top-center)</code></p>
+            <p><code className="small">isContained=(true)</code></p>
+            <p><code className="small">checkOverflow=(true)</code></p>
+            <p><code className="small">popoverTrigger=(Click)</code></p>
+          </h3>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            direction={'top-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Tall' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            direction={'top-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 0 }}
+          >
+            <Button children='Tall-NoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            showArrow={false}
+            direction={'top-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Tall-NoArrow' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            showArrow={false}
+            direction={'top-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 0 }}
+          >
+            <Button children='Tall-NoArrowNoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'top-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Wide' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={short}
+            direction={'top-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Short' ariaLabel='Click' />
+          </Popover>
+
+        </div>
+        <div className="docs-example docs-example--spacing">
+
+          <h3>
+            Props
+            <p><code className="small">direction=(right-center)</code></p>
+            <p><code className="small">isContained=(true)</code></p>
+            <p><code className="small">checkOverflow=(true)</code></p>
+            <p><code className="small">popoverTrigger=(Click)</code></p>
+          </h3>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'right-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Tall' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'right-center'}
+            popoverTrigger={'Click'}
+          >
+            <Button children='Wide-NoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            showArrow={false}
+            direction={'right-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Wide-NoArrow' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            showArrow={false}
+            direction={'right-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 0 }}
+          >
+            <Button children='Wide-NoArrowNoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'right-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Wide' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            direction={'right-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Tall' ariaLabel='Click' />
+          </Popover>
+
+        </div>
+        <div className="docs-example docs-example--spacing">
+
+          <h3>
+            Props
+            <p><code className="small">direction=(left-center)</code></p>
+            <p><code className="small">isContained=(true)</code></p>
+            <p><code className="small">checkOverflow=(true)</code></p>
+            <p><code className="small">popoverTrigger=(Click)</code></p>
+          </h3>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'left-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Tall' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'left-center'}
+            popoverTrigger={'Click'}
+          >
+            <Button children='Wide-NoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            showArrow={false}
+            direction={'left-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Wide-NoArrow' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            showArrow={false}
+            direction={'left-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 0 }}
+          >
+            <Button children='Wide-NoArrowNoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'left-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Wide' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            direction={'left-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30, horizontal: 30 }}
+          >
+            <Button children='Tall' ariaLabel='Click' />
+          </Popover>
+
+        </div>
+        <div className="docs-example docs-example--spacing">
+
+          <h3>
+            Props
+            <p><code className="small">direction=(bottom-center)</code></p>
+            <p><code className="small">isContained=(true)</code></p>
+            <p><code className="small">checkOverflow=(true)</code></p>
+            <p><code className="small">popoverTrigger=(Click)</code></p>
+          </h3>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            direction={'bottom-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Tall' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            direction={'bottom-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 0 }}
+          >
+            <Button children='Tall-NoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            showArrow={false}
+            direction={'bottom-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Tall-NoArrow' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={tall}
+            showArrow={false}
+            direction={'bottom-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 0 }}
+          >
+            <Button children='Tall-NoArrowNoOffset' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={wide}
+            direction={'bottom-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Wide' ariaLabel='Click' />
+          </Popover>
+          <Popover
+            isContained
+            checkOverflow
+            content={short}
+            direction={'bottom-center'}
+            popoverTrigger={'Click'}
+            targetOffset={{ vertical: 30 }}
+          >
+            <Button children='Short' ariaLabel='Click' />
+          </Popover>
+
+        </div>
       </div>
     </div>
   );
