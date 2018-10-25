@@ -8,6 +8,7 @@ const IconContent = props => {
     icon,
     isProtected,
     loading,
+    onClick,
     subtitle,
     title,
     ...otherProps
@@ -26,7 +27,13 @@ const IconContent = props => {
           </div>
         }
         <span>
-          <i className={`icon ${icon}`} />
+          <i className={
+            `icon ${icon}` +
+            `${(onClick && ' cui-cursor-pointer') || ''}`
+            }
+            onClick={onClick}
+            role='presentation'
+          />
         </span>
       </div>
       <div className="cui-content-file__info-container">
@@ -45,6 +52,7 @@ IconContent.defaultProps = {
   icon: '',
   isProtected: null,
   loading: false,
+  onClick: null,
   subtitle: '',
   title: '',
 };
@@ -55,6 +63,7 @@ IconContent.propTypes = {
   icon: PropTypes.string,
   isProtected: PropTypes.bool,
   loading: PropTypes.bool,
+  onClick: PropTypes.func,
   subtitle: PropTypes.string,
   title: PropTypes.string,
 };

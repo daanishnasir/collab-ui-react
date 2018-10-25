@@ -9,8 +9,10 @@ const FileContentItem = props => {
     aspect,
     className,
     content,
+    gifIcon,
     isProtected,
     loading,
+    onClick,
     style,
     subtitle,
     title,
@@ -31,10 +33,15 @@ const FileContentItem = props => {
       loading
       ?
       <div
-        className= {`${(!aspect && 'cui-content-file') || ''}`}
-        style = {{backgroundImage:content && `url(${content})`}}
+        className={`${(!aspect && 'cui-content-file') || ''}`}
+        style={{backgroundImage:content && `url(${content})`}}
       >
-        <div className = {`${(content && 'cui-content--opacity') || ''}`}>
+        <div
+          className = {
+            'cui-cursor-default' +
+            `${(content && ' cui-content--opacity') || ''}`
+          }
+        >
           <Spinner />
         </div>
       </div>
@@ -49,12 +56,15 @@ const FileContentItem = props => {
           className={
             `${(aspect && kebabify(aspect)) || ''}` +
             `${(!aspect && ' cui-content-file--full') || ''}` +
+            `${(onClick && ' cui-cursor-pointer') || ''}` +
             `${(className && ` ${className}`) || ''}`
           }
           style={{
             backgroundImage: content && `url(${content})`,
             ...style
           }}
+          role='presentation'
+          onClick={onClick}
         />
           {
             !isProtected && actionNode &&
@@ -62,11 +72,21 @@ const FileContentItem = props => {
               {actionNode}
             </div>
           }
+          {gifIcon && <i className={`${gifIcon} cui-gif`} />}
       </div>
     }
     <div className='cui-content-file__info-container'>
-      <span className='cui-content-file__title'>{loading ? 'Loading' : title}</span>
-      <span className="cui-content-file__subtitle"> {subtitle} </span>
+    {
+      title && subtitle ?
+      [
+      <span key='title' title={title} className='cui-content-file__title'>{loading ? 'Loading' : title}</span>,
+      <span key='subtitle' className="cui-content-file__subtitle"> {subtitle} </span>
+      ]
+      : !title && subtitle ?
+      <span key='subtitle' className="cui-content-file__subtitle"> {subtitle} </span>
+      :
+      <span key='title' className='cui-content-file__title'>{loading ? 'Loading' : title}</span>
+    }
     </div>
   </div>
   );
@@ -77,9 +97,11 @@ FileContentItem.defaultProps = {
   aspect: null,
   className: '',
   content: '',
+  gifIcon: '',
   icon: '',
   isProtected: null,
   loading: false,
+  onClick: null,
   style: null,
   subtitle: '',
   title: '',
@@ -90,9 +112,11 @@ FileContentItem.propTypes = {
   aspect: PropTypes.oneOf(['oneOne', 'twoThree', 'fourThree', 'threeFour', 'sixteenNine', 'nineSixteen']),
   className: PropTypes.string,
   content: PropTypes.string,
+  gifIcon: PropTypes.string,
   icon: PropTypes.string,
   isProtected: PropTypes.bool,
   loading: PropTypes.bool,
+  onClick: PropTypes.func,
   style: PropTypes.object,
   subtitle: PropTypes.string,
   title: PropTypes.string,
