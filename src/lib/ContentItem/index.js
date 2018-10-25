@@ -12,7 +12,7 @@ class ContentItem extends React.PureComponent {
       aspect,
       className,
       content,
-      failed,
+      failedText,
       fileSize,
       icon,
       isProtected,
@@ -26,7 +26,7 @@ class ContentItem extends React.PureComponent {
 
     const chosenItem = () => {
 
-      if(failed && type==='chat') {
+      if(failedText && type==='chat') {
         return (
           <div className={
             'cui-content cui-content--failed' +
@@ -34,7 +34,7 @@ class ContentItem extends React.PureComponent {
           }>
             <div className="cui-content--failed-container">
               <i className='icon icon-warning_28 cui-content--failed-warning'/>
-              <p className='cui-content--failed-message'> Failed to load  preview. Tap to download the file. </p>
+              <p className='cui-content--failed-message'> {failedText} </p>
             </div>
           </div>
         );
@@ -99,7 +99,7 @@ ContentItem.defaultProps = {
   aspect: null,
   className: '',
   content: null,
-  failed: null,
+  failedText: '',
   fileSize: '',
   icon: '',
   isProtected: false,
@@ -115,7 +115,7 @@ ContentItem.propTypes = {
   aspect: PropTypes.oneOf(['oneOne','tall','threeFour','wide','fourThree','nineSixteen','sixteenNine','twoThree','threeTwo']),
   className: PropTypes.string,
   content: PropTypes.string,
-  failed: PropTypes.bool,
+  failedText: PropTypes.string,
   fileSize: PropTypes.string,
   icon: PropTypes.string,
   isProtected: PropTypes.bool,
@@ -167,6 +167,10 @@ import { Button, Icon } from '@collab-ui/react';
       </div>
     )
 
+    const handleClick = () => {
+      alert('Image onClick')
+    }
+
     return(
     <div className='columns large'>
       <div className= 'docs-example docs-example--spacing'>
@@ -174,21 +178,33 @@ import { Button, Icon } from '@collab-ui/react';
           actionNode={actionNode}
           aspect='sixteenNine'
           content='https://newevolutiondesigns.com/images/freebies/yellow-wallpaper-12.jpg'
-          subtitle='Barbara German, 4 days'
-          type='chat'
           fileSize='24 KB'
+          onClick={handleClick}
+          type='chat'
           title='Nice seating.png' />
       </div>
 
       <div className= 'docs-example docs-example--spacing'>
         <ContentItem
           aspect='sixteenNine'
-          title='Nice seating.png'
-          fileSize='24 KB'
           content= 'https://newevolutiondesigns.com/images/freebies/yellow-wallpaper-12.jpg'
+          fileSize='24 KB'
           isProtected={true}
+          onClick={handleClick}
+          title='Nice seating.png'
           type='chat' />
-        </div>
+      </div>
+
+      <div className= 'docs-example docs-example--spacing'>
+        <ContentItem
+          aspect='sixteenNine'
+          content= 'http://upload.wikimedia.org/wikipedia/commons/d/dd/Muybridge_race_horse_animated.gif'
+          fileSize='50 KB'
+          gifIcon='icon icon-gif_24'
+          isProtected={true}
+          title='Race Horse.gif'
+          type='chat' />
+      </div>
     </div>
     );
   }
@@ -210,7 +226,6 @@ import { Button, Icon } from '@collab-ui/react';
  export default class FileContentItem extends React.PureComponent {
 
   render() {
-
 
     const actionNode =
     (
@@ -244,22 +259,41 @@ import { Button, Icon } from '@collab-ui/react';
       </div>
     )
 
+     const handleClick = () => {
+      alert('Image onClick');
+    }
 
     return(
     <div className='columns large'>
-      <ContentItem
-        actionNode={actionNode}
-        content='https://vmcdn.ca/f/files/sudbury/uploadedImages/news/localNews/2015/06/090615_IKEA_sized.jpg;w=630'
-        subtitle='Barbara German, 4 days'
-        type='file'
-        title='Logo.pdf' />
+      <div className= 'docs-example docs-example--spacing'>
+        <ContentItem
+          actionNode={actionNode}
+          content='https://vmcdn.ca/f/files/sudbury/uploadedImages/news/localNews/2015/06/090615_IKEA_sized.jpg;w=630'
+          onClick={handleClick}
+          subtitle='Barbara German, 4 days'
+          title='Logo.pdf'
+          type='file' />
+        </div>
 
-      <ContentItem
-        content='https://vmcdn.ca/f/files/sudbury/uploadedImages/news/localNews/2015/06/090615_IKEA_sized.jpg;w=630'
-        isProtected={true}
-        subtitle='Barbara German, 4 days'
-        type='file'
-        title='Logo.pdf' />
+      <div className= 'docs-example docs-example--spacing'>
+        <ContentItem
+          content='https://vmcdn.ca/f/files/sudbury/uploadedImages/news/localNews/2015/06/090615_IKEA_sized.jpg;w=630'
+          isProtected={true}
+          subtitle='Barbara German, 4 days'
+          title='Screen Shot 2018-10-11 at 5.22.32 PM.png'
+          type='file' />
+      </div>
+
+      <div className= 'docs-example docs-example--spacing'>
+        <ContentItem
+          actionNode={actionNode}
+          content='http://upload.wikimedia.org/wikipedia/commons/d/dd/Muybridge_race_horse_animated.gif'
+          gifIcon='icon icon-gif_20'
+          onClick={handleClick}
+          subtitle='Barbara German, 4 days'
+          title='Race Horse.gif'
+          type='file' />
+      </div>
     </div>
     );
   }
@@ -275,25 +309,63 @@ import { Button, Icon } from '@collab-ui/react';
 *
 * @js
 *
+import { Button, Icon } from '@collab-ui/react';
 
  export default class FileContentItem extends React.PureComponent {
 
   render() {
+    const actionNode =
+    (
+      <div>
+        <Button
+          ariaLabel='For the Win'
+          style={{backgroundColor:'black'}}
+          circle
+          size={32}
+        >
+          <Icon name='chat_12' color='white' />
+        </Button>
+
+        <Button
+          ariaLabel='For the Win'
+          style={{backgroundColor:'black'}}
+          circle
+          size={32}
+        >
+          <Icon name='open-in-folder_12' color='white' />
+        </Button>
+
+        <Button
+          ariaLabel='For the Win'
+          style={{backgroundColor:'black'}}
+          circle
+          size={32}
+        >
+          <Icon name='icon-arrow-tail-down_12' color='white' />
+        </Button>
+      </div>
+    )
+
+     const handleClick = () => {
+      alert('Image onClick');
+    }
+
     return(
-
-
       <div>
         <ContentItem
           aspect='twoThree'
           content='http://www.emertatmassage.com/wp-content/uploads/2014/06/img-16.jpg'
           subtitle='Barbara German, 4 days'
           type='file'
+          actionNode={actionNode}
+          onClick={handleClick}
           title='2:3' />
 
         <ContentItem
           aspect='threeFour'
           content='http://www.emertatmassage.com/wp-content/uploads/2014/06/img-16.jpg'
           subtitle='Barbara German, 4 days'
+          onClick={handleClick}
           type='file'
           title='3:4' />
 
@@ -330,6 +402,7 @@ import { Button, Icon } from '@collab-ui/react';
           content='https://newevolutiondesigns.com/images/freebies/yellow-wallpaper-12.jpg'
           subtitle='Barbara German, 4 days'
           type='chat'
+          onClick={handleClick}
           title='1:1, 3:2 Container' />
 
         <ContentItem
@@ -451,7 +524,7 @@ import { Button, Icon } from '@collab-ui/react';
     return(
     <div className='columns large'>
       <ContentItem
-        failed={true}
+        failedText='Failed to load  preview. Tap to download the file.'
         fileSize='24 KB'
         onDownload={this.alertSomething}
         title='Nice seating.png'

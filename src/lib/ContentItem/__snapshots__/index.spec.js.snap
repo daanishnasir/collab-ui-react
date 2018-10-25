@@ -8,7 +8,7 @@ ShallowWrapper {
     aspect={null}
     className=""
     content={null}
-    failed={null}
+    failedText=""
     fileSize=""
     icon=""
     isProtected={false}
@@ -36,8 +36,10 @@ ShallowWrapper {
         className=""
         content={null}
         fileSize=""
+        gifIcon=""
         isProtected={false}
         loading={false}
+        onClick={null}
         style={null}
         title=""
         type="chat"
@@ -54,8 +56,10 @@ ShallowWrapper {
         "className": "",
         "content": null,
         "fileSize": "",
+        "gifIcon": "",
         "isProtected": false,
         "loading": false,
+        "onClick": null,
         "style": null,
         "title": "",
         "type": "chat",
@@ -78,8 +82,10 @@ ShallowWrapper {
           className=""
           content={null}
           fileSize=""
+          gifIcon=""
           isProtected={false}
           loading={false}
+          onClick={null}
           style={null}
           title=""
           type="chat"
@@ -96,8 +102,10 @@ ShallowWrapper {
           "className": "",
           "content": null,
           "fileSize": "",
+          "gifIcon": "",
           "isProtected": false,
           "loading": false,
+          "onClick": null,
           "style": null,
           "title": "",
           "type": "chat",
