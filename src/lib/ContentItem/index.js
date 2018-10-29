@@ -111,18 +111,31 @@ ContentItem.defaultProps = {
 };
 
 ContentItem.propTypes = {
+  /** @prop Node to render buttons inside Content Item | null */
   actionNode: PropTypes.node,
+  /** @prop Set the Content Item's aspect size | null */
   aspect: PropTypes.oneOf(['oneOne','tall','threeFour','wide','fourThree','nineSixteen','sixteenNine','twoThree','threeTwo']),
+  /** @prop Optional css class string | '' */
   className: PropTypes.string,
+  /** @prop Set the image/gif of the Content Item | '' */
   content: PropTypes.string,
+  /** @prop Set the failed text to show when content fails to load | '' */
   failedText: PropTypes.string,
+  /** @prop Show the size of the file | '' */
   fileSize: PropTypes.string,
+  /** @prop Set the type of icon to show | '' */
   icon: PropTypes.string,
+  /** @prop Show visibility of action node buttons | false */
   isProtected: PropTypes.bool,
+  /** @prop Show loading spinner | false */
   loading: PropTypes.bool,
+  /** @prop Additional css styling applied to the button | null  */
   style: PropTypes.object,
+  /** @prop Set the subtitle of the Content Item | '' */
   subtitle: PropTypes.string,
+  /** @prop Set the title of the Content Item | '' */
   title: PropTypes.string,
+  /** @prop Set the type of Content Item to display */
   type: PropTypes.oneOf(['chat', 'file']),
 };
 

@@ -72,21 +72,21 @@ const FileContentItem = props => {
               {actionNode}
             </div>
           }
-          {gifIcon && <i className={`${gifIcon} cui-gif`} />}
+          {
+            gifIcon &&
+            <i className={`${gifIcon} cui-gif`} />
+          }
       </div>
     }
     <div className='cui-content-file__info-container'>
-    {
-      title && subtitle ?
-      [
-      <span key='title' title={title} className='cui-content-file__title'>{loading ? 'Loading' : title}</span>,
-      <span key='subtitle' className="cui-content-file__subtitle"> {subtitle} </span>
-      ]
-      : !title && subtitle ?
-      <span key='subtitle' className="cui-content-file__subtitle"> {subtitle} </span>
-      :
-      <span key='title' className='cui-content-file__title'>{loading ? 'Loading' : title}</span>
-    }
+      {
+        title &&
+        <span key='title' className='cui-content-file__title'>{loading ? 'Loading' : title}</span>
+      }
+      {
+        subtitle &&
+        <span key='subtitle' className="cui-content-file__subtitle"> {subtitle} </span>
+      }
     </div>
   </div>
   );
