@@ -36,12 +36,7 @@ const FileContentItem = props => {
         className={`${(!aspect && 'cui-content-file') || ''}`}
         style={{backgroundImage:content && `url(${content})`}}
       >
-        <div
-          className = {
-            'cui-cursor-default' +
-            `${(content && ' cui-content--opacity') || ''}`
-          }
-        >
+        <div className={`${(content && ' cui-content--opacity') || ''}`}>
           <Spinner />
         </div>
       </div>
@@ -56,7 +51,7 @@ const FileContentItem = props => {
           className={
             `${(aspect && kebabify(aspect)) || ''}` +
             `${(!aspect && ' cui-content-file--full') || ''}` +
-            `${(onClick && ' cui-cursor-pointer') || ''}` +
+            `${(onClick && ' cui-content-file--clickable') || ''}` +
             `${(className && ` ${className}`) || ''}`
           }
           style={{
@@ -74,18 +69,20 @@ const FileContentItem = props => {
           }
           {
             gifIcon &&
-            <i className={`${gifIcon} cui-gif`} />
+            <i className={`${gifIcon} cui-content__gif`} />
           }
       </div>
     }
     <div className='cui-content-file__info-container'>
       {
         title &&
-        <span key='title' className='cui-content-file__title'>{loading ? 'Loading' : title}</span>
+        <span key='title' className='cui-content-file__title'>
+          {loading ? 'Loading' : title}
+        </span>
       }
       {
         subtitle &&
-        <span key='subtitle' className="cui-content-file__subtitle"> {subtitle} </span>
+        <span key='subtitle' className="cui-content-file__subtitle">{subtitle}</span>
       }
     </div>
   </div>

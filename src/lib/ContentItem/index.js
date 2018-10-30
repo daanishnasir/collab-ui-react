@@ -34,7 +34,7 @@ class ContentItem extends React.PureComponent {
           }>
             <div className="cui-content--failed-container">
               <i className='icon icon-warning_28 cui-content--failed-warning'/>
-              <p className='cui-content--failed-message'> {failedText} </p>
+              <p className='cui-content--failed-message'>{failedText}</p>
             </div>
           </div>
         );
@@ -123,6 +123,8 @@ ContentItem.propTypes = {
   failedText: PropTypes.string,
   /** @prop Show the size of the file | '' */
   fileSize: PropTypes.string,
+  /** @prop Show icon at top right corner of Content Item */
+  gifIcon: PropTypes.string,
   /** @prop Set the type of icon to show | '' */
   icon: PropTypes.string,
   /** @prop Show visibility of action node buttons | false */
@@ -564,12 +566,27 @@ import { Button, Icon } from '@collab-ui/react';
 
   render() {
 
+    const handleClick = () => {
+      alert('file onClick');
+    }
+
+    const folderClick = e => {
+      alert('folder clicked');
+      e.stopPropagation();
+    }
+
+    const downloadClick = e => {
+      alert('download clicked');
+      e.stopPropagation();
+    }
+
     const actionNode =
     (
       <div>
         <Button
           ariaLabel='For the Win'
           circle
+          onClick={folderClick}
           style={{backgroundColor:'black'}}
           size={32}
         >
@@ -578,8 +595,9 @@ import { Button, Icon } from '@collab-ui/react';
 
         <Button
           ariaLabel='For the Win'
-          style={{backgroundColor:'black'}}
           circle
+          onClick={downloadClick}
+          style={{backgroundColor:'black'}}
           size={32}
         >
           <Icon name='icon-arrow-tail-down_14' color='white' />
@@ -593,6 +611,7 @@ import { Button, Icon } from '@collab-ui/react';
         actionNode={actionNode}
         fileSize='24 KB'
         icon='icon-pdf_72'
+        onClick={handleClick}
         subtitle='Barbara German, 12/05/18'
         title='Ideas.pdf'
         type='file'/>

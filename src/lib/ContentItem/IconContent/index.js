@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from '@collab-ui/react';
 
 const IconContent = props => {
   const {
@@ -17,7 +18,12 @@ const IconContent = props => {
   return (
     <div>
       <div
-        className={'cui-content-file' + `${(className && ` ${className}`) || ''}`}
+        className={
+          'cui-content-file' + `${(className && ` ${className}`) || ''}` +
+          `${(onClick && ' cui-content-file--clickable') || ''}`
+        }
+        onClick={onClick}
+        role='presentation'
         {...otherProps}
       >
         {
@@ -27,13 +33,7 @@ const IconContent = props => {
           </div>
         }
         <span>
-          <i className={
-            `icon ${icon}` +
-            `${(onClick && ' cui-cursor-pointer') || ''}`
-            }
-            onClick={onClick}
-            role='presentation'
-          />
+          <Icon name={icon} />
         </span>
       </div>
       <div className="cui-content-file__info-container">

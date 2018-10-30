@@ -52,7 +52,7 @@ const ChatContentItem = props => {
         className={
           `${(aspect && kebabify('inner', aspect)) || ''}` +
           `${(!aspect && ' cui-content-file--full') || ''}` +
-          `${(onClick && ' cui-cursor-pointer') || ''}` +
+          `${(onClick && ' cui-content-file--clickable') || ''}` +
           `${(className && ` ${className}`) || ''}`
         }
         style={{
@@ -65,19 +65,14 @@ const ChatContentItem = props => {
         {
           loading
           &&
-          <div
-            className={
-              'cui-cursor-default' +
-              `${(content ? ' cui-content--opacity' : ' cui-content--centered') || ''}`
-            }
-          >
+          <div className={`${(content ? ' cui-content--opacity' : ' cui-content--centered') || ''}`}>
             <Spinner />
           </div>
         }
         {
           gifIcon
           &&
-          <i className={`${gifIcon} cui-gif`} />
+          <i className={`${gifIcon} cui-content__gif`} />
         }
       </div>
       {
