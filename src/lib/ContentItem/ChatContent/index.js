@@ -55,12 +55,13 @@ const ChatContentItem = props => {
           `${(onClick && ' cui-content-file--clickable') || ''}` +
           `${(className && ` ${className}`) || ''}`
         }
+        onClick={onClick}
+        onKeyDown={onClick}
+        role='presentation'
         style={{
           backgroundImage: content && `url(${content})`,
           ...style
         }}
-        onClick={onClick}
-        role='presentation'
       >
         {
           loading

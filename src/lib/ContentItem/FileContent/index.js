@@ -58,12 +58,13 @@ const FileContentItem = props => {
             `${(onClick && ' cui-content-file--clickable') || ''}` +
             `${(className && ` ${className}`) || ''}`
           }
+          onKeyDown={onClick}
+          onClick={onClick}
+          role='presentation'
           style={{
             backgroundImage: content && `url(${content})`,
             ...style
           }}
-          role='presentation'
-          onClick={onClick}
         />
           {
             !isProtected && actionNode &&

@@ -23,6 +23,7 @@ const IconContent = props => {
           `${(onClick && ' cui-content-file--clickable') || ''}`
         }
         onClick={onClick}
+        onKeyDown={onClick}
         role='presentation'
         {...otherProps}
       >
