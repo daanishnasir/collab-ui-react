@@ -16,6 +16,11 @@ class Popover extends React.Component {
     isHovering: false
   };
 
+  componentDidMount() {
+    this.props.startOpen &&
+    this.delayedShow();
+  }
+
   componentWillUnmount() {
     this.hideTimerId && clearTimeout(this.hideTimerId);
     this.showTimerId && clearTimeout(this.showTimerId);
@@ -43,7 +48,7 @@ class Popover extends React.Component {
       );
     }, popoverHideTime);
 
-    e.stopPropagation();
+    e && e.stopPropagation();
   };
 
   delayedShow = e => {
@@ -65,7 +70,7 @@ class Popover extends React.Component {
       );
     }, popoverShowTime);
 
-    e.stopPropagation();
+    e && e.stopPropagation();
   };
 
   handleClose = e => {
@@ -167,6 +172,7 @@ class Popover extends React.Component {
       'hoverDelay',
       'onClose',
       'showDelay',
+      'startOpen',
     ]);
 
     const getTriggers = () => {
@@ -196,6 +202,15 @@ class Popover extends React.Component {
         case 'Focus':
           triggerProps.onFocus = this.handleFocus;
           triggerProps.onBlur = this.handleBlur;
+          triggerProps.onMouseEnter = null;
+          triggerProps.onMouseLeave = null;
+
+          break;
+
+        case 'None':
+          triggerProps.onClick = null;
+          triggerProps.onFocus = null;
+          triggerProps.onBlur = null;
           triggerProps.onMouseEnter = null;
           triggerProps.onMouseLeave = null;
 
@@ -267,6 +282,8 @@ Popover.propTypes = {
   showArrow: PropTypes.bool,
   /** @prop The show delay for popover on hover, click, focus | 0 */
   showDelay: PropTypes.number,
+  /** @prop Should Popover start open | false */
+  startOpen: PropTypes.bool,
 };
 
 Popover.defaultProps = {
@@ -280,6 +297,7 @@ Popover.defaultProps = {
   popoverTrigger: 'MouseEnter',
   showArrow: true,
   showDelay: 0,
+  startOpen: false,
 };
 
 Popover.displayName = 'Popover';
@@ -436,7 +454,6 @@ export default Popover;
           <Popover
             content={content}
             direction={'bottom-center'}
-            popoverTrigger={'Click'}
           >
             <Button
               children='Click'
@@ -462,6 +479,31 @@ export default Popover;
             <Button
               children='Click No Toggle'
               ariaLabel='Click'
+            />
+          </Popover>
+
+        </div>
+        <div className="docs-example docs-example--spacing">
+
+          <h3>
+            Props
+            <p><code className="small">direction=(bottom-center)</code></p>
+            <p><code className="small">popoverTrigger=('None')</code></p>
+            <p><code className="small">doesAnchorToggle(false)</code></p>
+            <p><code className="small">allowClickAway(false)</code></p>
+            <p><code className="small">startOpen(true)</code></p>
+          </h3>
+          <Popover
+            content={'Always Open'}
+            direction={'bottom-center'}
+            doesAnchorToggle={false}
+            popoverTrigger={'None'}
+            startOpen
+            allowClickAway={false}
+          >
+            <Button
+              children='Always Open'
+              ariaLabel='Always Open'
             />
           </Popover>
 

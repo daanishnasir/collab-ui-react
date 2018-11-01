@@ -132,6 +132,7 @@ class Input extends React.Component {
       disabled,
       errorArr,
       htmlId,
+      iconNode,
       id,
       inputClassName,
       inputHelpText,
@@ -185,12 +186,17 @@ class Input extends React.Component {
       />
     );
 
+    const customInputIconNode = iconNode &&
+      React.cloneElement(iconNode, {
+        className: (iconNode.props.onClick ? '' : 'cui-input__icon')
+      });
+
     const iconContainer = () => {
       return (
         <div className='cui-input__icon-container'>
           {inputElement}
           {children}
-          {clearButton}
+          {customInputIconNode || clearButton}
         </div>
       );
     };
@@ -222,7 +228,7 @@ class Input extends React.Component {
       );
 
     const getInputWrapper = () => {
-      if (clear || children) return iconContainer();
+      if (iconNode || clear || children) return iconContainer();
       if (secondaryLabel) return secondaryLabelWrapper();
       return inputElement;
     };
@@ -278,7 +284,9 @@ Input.propTypes = {
   errorArr: PropTypes.array,
   /** @prop Unique HTML ID used for tying label to HTML input for automated testing | null */
   htmlId: PropTypes.string,
-  /** @prop Unique HTML ID ssed for tying label to HTML input | null */
+  /** Optional Icon node that overrides the default clear icon | null */
+  iconNode: PropTypes.node,
+  /** Unique HTML ID used for tying label to HTML input | null */
   id: PropTypes.string,
   /** @prop Input css class name string | '' */
   inputClassName: PropTypes.string,
@@ -327,6 +335,7 @@ Input.defaultProps = {
   disabled: false,
   errorArr: [],
   htmlId: null,
+  iconNode: null,
   id: null,
   inputClassName: '',
   inputHelpText: '',
@@ -899,6 +908,45 @@ export default class Clear extends React.PureComponent {
         value={this.state.value}
         onChange={this.handleChange}
         clear
+      />
+    </div>
+    );
+  }
+}
+
+
+**/
+
+/**
+* @name Input with custom iconNode
+* @description You can add an custom Icon node (overrides clear button if clear prop exists)
+*
+* @category controls
+* @component input
+* @section custom-icon
+*
+* @js
+
+
+export default class CustomIconNode extends React.PureComponent {
+
+  render() {
+    const iconNode = (
+      <Icon
+        name="icon-info_16"
+        ariaLabel={'custom icon'}
+      />
+    );
+
+    return (
+      <div className='row'>
+      <Input
+        name='inputIcon'
+        label='Input with custom Icon node'
+        htmlId='inputIcon'
+        iconNode={iconNode}
+        inputSize='small-5'
+        placeholder='Placeholder Text'
       />
     </div>
     );
