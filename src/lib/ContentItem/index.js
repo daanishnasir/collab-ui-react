@@ -14,15 +14,54 @@ class ContentItem extends React.PureComponent {
       content,
       failedText,
       fileSize,
+      height,
       icon,
       isProtected,
       loading,
+      loadingText,
       style,
       subtitle,
       title,
       type,
+      width,
       ...otherProps
     } = this.props;
+
+    const findAspect = (width, height) => {
+
+      const {type} = this.props;
+
+      if(Number(width) && Number(height)){
+
+        width = Math.round(width);
+        height = Math.round(height);
+
+        const obj = {
+          1 : 'oneOne',
+          .75 : 'threeFour',
+          .66 : 'twoThree',
+          .4 : 'tall',
+          4.35 : 'wide',
+          1.33 : 'fourThree',
+          1.5 : 'threeTwo',
+          1.78 : 'sixteenNine'
+        };
+
+        const keys = Object.keys(obj);
+
+        if(width === height){
+          return 'oneOne';
+        }
+
+        const goal = width/height;
+
+        const closest = keys
+        .reduce((prev, curr) => Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev); //Finds closest aspect to width/height
+
+        return obj[closest];
+      }
+      return type === 'chat' ? 'sixteenNine' : 'threeTwo';
+    };
 
     const chosenItem = () => {
 
@@ -42,30 +81,35 @@ class ContentItem extends React.PureComponent {
         return (
           <ChatContentItem
             actionNode={actionNode}
-            aspect={aspect}
+            aspect={aspect ? aspect : findAspect(width,height)}
             className={className}
             content={content}
             fileSize={fileSize}
+            height={height}
             isProtected={isProtected}
             loading={loading}
             style={style}
             title={title}
             type={type}
+            width={width}
             {...otherProps} />
         );
       } else if (type==='file' && !icon){
         return (
           <FileContentItem
             actionNode={actionNode}
-            aspect={aspect}
+            aspect={aspect ? aspect : findAspect(width,height)}
             className={className}
             content={content}
+            height={height}
             icon={icon}
             isProtected={isProtected}
             loading={loading}
+            loadingText={loadingText}
             subtitle={subtitle}
             title={title}
             type={type}
+            width={width}
             {...otherProps} />
         );
       } else if (icon){
@@ -104,6 +148,7 @@ ContentItem.defaultProps = {
   icon: '',
   isProtected: false,
   loading: false,
+  loadingText: 'Loading',
   style: null,
   subtitle: '',
   title: '',
@@ -114,7 +159,7 @@ ContentItem.propTypes = {
   /** @prop Node to render buttons inside Content Item | null */
   actionNode: PropTypes.node,
   /** @prop Set the Content Item's aspect size | null */
-  aspect: PropTypes.oneOf(['oneOne','tall','threeFour','wide','fourThree','nineSixteen','sixteenNine','twoThree','threeTwo']),
+  aspect: PropTypes.oneOf(['fourThree', 'nineSixteen', 'oneOne', 'sixteenNine', 'tall', 'threeFour', 'threeTwo', 'twoThree', 'wide']),
   /** @prop Optional css class string | '' */
   className: PropTypes.string,
   /** @prop Set the image/gif of the Content Item | '' */
@@ -125,12 +170,16 @@ ContentItem.propTypes = {
   fileSize: PropTypes.string,
   /** @prop Show icon at top right corner of Content Item */
   gifIcon: PropTypes.string,
+  /** @prop Height of the image in px */
+  height: PropTypes.number,
   /** @prop Set the type of icon to show | '' */
   icon: PropTypes.string,
   /** @prop Show visibility of action node buttons | false */
   isProtected: PropTypes.bool,
   /** @prop Show loading spinner | false */
   loading: PropTypes.bool,
+  /** @prop Change loading text */
+  loadingText: PropTypes.string,
   /** @prop Additional css styling applied to the button | null  */
   style: PropTypes.object,
   /** @prop Set the subtitle of the Content Item | '' */
@@ -139,6 +188,8 @@ ContentItem.propTypes = {
   title: PropTypes.string,
   /** @prop Set the type of Content Item to display */
   type: PropTypes.oneOf(['chat', 'file']),
+  /** @prop Width of the image in px */
+  width: PropTypes.number
 };
 
 
@@ -283,6 +334,7 @@ import { Button, Icon } from '@collab-ui/react';
       <div className= 'docs-example docs-example--spacing'>
         <ContentItem
           actionNode={actionNode}
+          aspect='threeTwo'
           content='https://vmcdn.ca/f/files/sudbury/uploadedImages/news/localNews/2015/06/090615_IKEA_sized.jpg;w=630'
           onClick={handleClick}
           subtitle='Barbara German, 4 days'
@@ -292,6 +344,7 @@ import { Button, Icon } from '@collab-ui/react';
 
       <div className= 'docs-example docs-example--spacing'>
         <ContentItem
+          aspect='threeTwo'
           content='https://vmcdn.ca/f/files/sudbury/uploadedImages/news/localNews/2015/06/090615_IKEA_sized.jpg;w=630'
           isProtected={true}
           subtitle='Barbara German, 4 days'
@@ -302,6 +355,7 @@ import { Button, Icon } from '@collab-ui/react';
       <div className= 'docs-example docs-example--spacing'>
         <ContentItem
           actionNode={actionNode}
+          aspect='threeTwo'
           content='http://upload.wikimedia.org/wikipedia/commons/d/dd/Muybridge_race_horse_animated.gif'
           gifIcon='icon icon-gif_20'
           onClick={handleClick}
@@ -413,6 +467,13 @@ import { Button, Icon } from '@collab-ui/react';
           title='4:3' />
 
         <ContentItem
+          aspect='threeTwo'
+          content='http://www.emertatmassage.com/wp-content/uploads/2014/06/img-16.jpg'
+          subtitle='Barbara German, 4 days'
+          type='file'
+          title='3:2' />
+
+        <ContentItem
           aspect='oneOne'
           content='https://newevolutiondesigns.com/images/freebies/yellow-wallpaper-12.jpg'
           subtitle='Barbara German, 4 days'
@@ -492,8 +553,10 @@ import { Button, Icon } from '@collab-ui/react';
 
       <div className= 'docs-example docs-example--spacing'>
         <ContentItem
+          aspect='threeTwo'
           content= 'https://newevolutiondesigns.com/images/freebies/yellow-wallpaper-12.jpg'
           loading={true}
+          loadingText='Loading'
           subtitle='Barbara German, 4 days'
           type='file'
           title='Logo.pdf' />

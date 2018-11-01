@@ -12,6 +12,7 @@ const FileContentItem = props => {
     gifIcon,
     isProtected,
     loading,
+    loadingText,
     onClick,
     style,
     subtitle,
@@ -20,6 +21,9 @@ const FileContentItem = props => {
   } = props;
 
   const kebabify = (aspect) => {
+    if(aspect === 'wide'){
+      aspect = 'sixteenNine';
+    }
     const kebab = snakeCase(aspect);
     return `cui-content-file--${kebab}`;
   };
@@ -33,7 +37,7 @@ const FileContentItem = props => {
       loading
       ?
       <div
-        className={`${(!aspect && 'cui-content-file') || ''}`}
+        className='cui-content-file'
         style={{backgroundImage:content && `url(${content})`}}
       >
         <div className={`${(content && ' cui-content--opacity') || ''}`}>
@@ -77,7 +81,7 @@ const FileContentItem = props => {
       {
         title &&
         <span key='title' className='cui-content-file__title'>
-          {loading ? 'Loading' : title}
+          {loading ? loadingText : title}
         </span>
       }
       {
@@ -98,6 +102,7 @@ FileContentItem.defaultProps = {
   icon: '',
   isProtected: null,
   loading: false,
+  loadingText: 'Loading',
   onClick: null,
   style: null,
   subtitle: '',
@@ -106,13 +111,14 @@ FileContentItem.defaultProps = {
 
 FileContentItem.propTypes = {
   actionNode: PropTypes.node,
-  aspect: PropTypes.oneOf(['oneOne', 'twoThree', 'fourThree', 'threeFour', 'sixteenNine', 'nineSixteen']),
+  aspect: PropTypes.oneOf(['oneOne', 'twoThree', 'threeTwo', 'fourThree', 'threeFour', 'sixteenNine', 'nineSixteen']),
   className: PropTypes.string,
   content: PropTypes.string,
   gifIcon: PropTypes.string,
   icon: PropTypes.string,
   isProtected: PropTypes.bool,
   loading: PropTypes.bool,
+  loadingText: PropTypes.string,
   onClick: PropTypes.func,
   style: PropTypes.object,
   subtitle: PropTypes.string,

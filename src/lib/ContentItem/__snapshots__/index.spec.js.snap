@@ -13,6 +13,7 @@ ShallowWrapper {
     icon=""
     isProtected={false}
     loading={false}
+    loadingText="Loading"
     style={null}
     subtitle=""
     title=""
@@ -32,17 +33,19 @@ ShallowWrapper {
     "props": Object {
       "children": <ChatContentItem
         actionNode={null}
-        aspect={null}
+        aspect="sixteenNine"
         className=""
         content={null}
         fileSize=""
         gifIcon=""
+        height={undefined}
         isProtected={false}
         loading={false}
         onClick={null}
         style={null}
         title=""
         type="chat"
+        width={undefined}
       />,
     },
     "ref": null,
@@ -52,17 +55,19 @@ ShallowWrapper {
       "nodeType": "function",
       "props": Object {
         "actionNode": null,
-        "aspect": null,
+        "aspect": "sixteenNine",
         "className": "",
         "content": null,
         "fileSize": "",
         "gifIcon": "",
+        "height": undefined,
         "isProtected": false,
         "loading": false,
         "onClick": null,
         "style": null,
         "title": "",
         "type": "chat",
+        "width": undefined,
       },
       "ref": null,
       "rendered": null,
@@ -78,17 +83,19 @@ ShallowWrapper {
       "props": Object {
         "children": <ChatContentItem
           actionNode={null}
-          aspect={null}
+          aspect="sixteenNine"
           className=""
           content={null}
           fileSize=""
           gifIcon=""
+          height={undefined}
           isProtected={false}
           loading={false}
           onClick={null}
           style={null}
           title=""
           type="chat"
+          width={undefined}
         />,
       },
       "ref": null,
@@ -98,17 +105,19 @@ ShallowWrapper {
         "nodeType": "function",
         "props": Object {
           "actionNode": null,
-          "aspect": null,
+          "aspect": "sixteenNine",
           "className": "",
           "content": null,
           "fileSize": "",
           "gifIcon": "",
+          "height": undefined,
           "isProtected": false,
           "loading": false,
           "onClick": null,
           "style": null,
           "title": "",
           "type": "chat",
+          "width": undefined,
         },
         "ref": null,
         "rendered": null,
