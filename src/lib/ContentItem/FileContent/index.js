@@ -81,7 +81,7 @@ const FileContentItem = props => {
     <div className='cui-content-file__info-container'>
       {
         title &&
-        <span key='title' className='cui-content-file__title'>
+        <span title={title} key='title' className='cui-content-file__title'>
           {loading ? loadingText : title}
         </span>
       }
