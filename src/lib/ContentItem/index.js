@@ -587,6 +587,34 @@ import { Button, Icon } from '@collab-ui/react';
 **/
 
 /**
+* @name Finding aspect with image Width and Height Prop
+*
+* @category containers
+* @component content-item
+* @section aspect
+*
+* @js
+*
+
+ export default class FileContentItem extends React.PureComponent {
+
+  render() {
+    return(
+    <div className='columns large'>
+      <ContentItem
+        content='https://newevolutiondesigns.com/images/freebies/yellow-wallpaper-12.jpg'
+        fileSize='24 KB'
+        height={400}
+        title='Nice seating.png'
+        type='chat'
+        width={300} />
+    </div>
+    );
+  }
+}
+**/
+
+/**
 * @name Failed to Load Content
 *
 * @category containers
