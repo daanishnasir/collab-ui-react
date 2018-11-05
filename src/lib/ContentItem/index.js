@@ -45,9 +45,9 @@ class ContentItem extends React.PureComponent {
         const providedAspectRatio = width/height;
 
         const closestAspectRatio = Object.keys(aspectRatioObj).reduce((prev, curr) =>
-        Math.abs(curr - providedAspectRatio) < Math.abs(prev - providedAspectRatio)
-        ? curr
-        : prev
+          Math.abs(curr - providedAspectRatio) < Math.abs(prev - providedAspectRatio)
+          ? curr
+          : prev
       );
 
         return aspectRatioObj[closestAspectRatio];
