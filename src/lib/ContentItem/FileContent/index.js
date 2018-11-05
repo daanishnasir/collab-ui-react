@@ -35,7 +35,7 @@ const FileContentItem = props => {
       || e.charCode === 32
       || e.charCode === 13
     ) {
-      onClick && onClick();
+      onClick && onClick(e);
       e.preventDefault();
     }
   };

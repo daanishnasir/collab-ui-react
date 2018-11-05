@@ -22,7 +22,7 @@ const IconContent = props => {
       || e.charCode === 32
       || e.charCode === 13
     ) {
-      onClick && onClick();
+      onClick && onClick(e);
       e.preventDefault();
     }
   };
@@ -32,8 +32,8 @@ const IconContent = props => {
       <div
         className={
           'cui-content-file' +
-          `${(className && ` ${className}`) || ''}` +
-          `${(onClick && ' cui-content-file--clickable') || ''}`
+          `${(onClick && ' cui-content-file--clickable') || ''}` +
+          `${(className && ` ${className}`) || ''}`
         }
         onClick={onClick}
         onKeyDown={handleKeyDown}
