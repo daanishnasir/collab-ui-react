@@ -29,14 +29,9 @@ class ContentItem extends React.PureComponent {
 
     const findAspect = (width, height) => {
 
-      const {type} = this.props;
+      if(width && height){
 
-      if(Number(width) && Number(height)){
-
-        width = Math.round(width);
-        height = Math.round(height);
-
-        const obj = {
+        const aspectRatioObj = {
           1 : 'oneOne',
           .75 : 'threeFour',
           .66 : 'twoThree',
@@ -47,18 +42,15 @@ class ContentItem extends React.PureComponent {
           1.78 : 'sixteenNine'
         };
 
-        const keys = Object.keys(obj);
+        const providedAspectRatio = width/height;
 
-        if(width === height){
-          return 'oneOne';
-        }
+        const closestAspectRatio = Object.keys(aspectRatioObj)
+        .reduce((prev, curr) => Math.abs(curr - providedAspectRatio) < Math.abs(prev - providedAspectRatio)
+        ? curr
+        : prev
+      );
 
-        const goal = width/height;
-
-        const closest = keys
-        .reduce((prev, curr) => Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev); //Finds closest aspect to width/height
-
-        return obj[closest];
+        return aspectRatioObj[closestAspectRatio];
       }
       return type === 'chat' ? 'sixteenNine' : 'threeTwo';
     };

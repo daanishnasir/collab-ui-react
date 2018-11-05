@@ -39,6 +39,18 @@ const ChatContentItem = props => {
       }
   };
 
+  const handleKeyDown = e => {
+    if (
+      e.which === 32
+      || e.which === 13
+      || e.charCode === 32
+      || e.charCode === 13
+    ) {
+      onClick && onClick();
+      e.preventDefault();
+    }
+  };
+
   return (
     <div
       className={
@@ -56,7 +68,7 @@ const ChatContentItem = props => {
           `${(className && ` ${className}`) || ''}`
         }
         onClick={onClick}
-        onKeyDown={onClick}
+        onKeyDown={handleKeyDown}
         role='presentation'
         style={{
           backgroundImage: content && `url(${content})`,
@@ -66,7 +78,7 @@ const ChatContentItem = props => {
         {
           loading
           &&
-          <div className={`${(content ? ' cui-content--opacity' : ' cui-content--centered') || ''}`}>
+          <div className={`${(content ? ' cui-content--opacity' : ' cui-content--centered')}`}>
             <Spinner />
           </div>
         }

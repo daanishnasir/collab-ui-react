@@ -15,15 +15,27 @@ const IconContent = props => {
     ...otherProps
   } = props;
 
+  const handleKeyDown = e => {
+    if (
+      e.which === 32
+      || e.which === 13
+      || e.charCode === 32
+      || e.charCode === 13
+    ) {
+      onClick && onClick();
+      e.preventDefault();
+    }
+  };
+
   return (
     <div>
       <div
         className={
-          'cui-content-file' + `${(className && ` ${className}`) || ''}` +
-          `${(onClick && ' cui-content-file--clickable') || ''}`
+          `${(onClick && 'cui-content-file--clickable') || ''}` +
+          'cui-content-file' + `${(className && ` ${className}`) || ''}`
         }
         onClick={onClick}
-        onKeyDown={onClick}
+        onKeyDown={handleKeyDown}
         role='presentation'
         {...otherProps}
       >

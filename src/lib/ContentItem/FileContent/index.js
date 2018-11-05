@@ -28,6 +28,18 @@ const FileContentItem = props => {
     return `cui-content-file--${kebab}`;
   };
 
+  const handleKeyDown = e => {
+    if (
+      e.which === 32
+      || e.which === 13
+      || e.charCode === 32
+      || e.charCode === 13
+    ) {
+      onClick && onClick();
+      e.preventDefault();
+    }
+  };
+
   return (
     <div
       className='cui-content__container'
@@ -58,7 +70,7 @@ const FileContentItem = props => {
             `${(onClick && ' cui-content-file--clickable') || ''}` +
             `${(className && ` ${className}`) || ''}`
           }
-          onKeyDown={onClick}
+          onKeyDown={handleKeyDown}
           onClick={onClick}
           role='presentation'
           style={{
