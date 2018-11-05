@@ -44,8 +44,8 @@ class ContentItem extends React.PureComponent {
 
         const providedAspectRatio = width/height;
 
-        const closestAspectRatio = Object.keys(aspectRatioObj)
-        .reduce((prev, curr) => Math.abs(curr - providedAspectRatio) < Math.abs(prev - providedAspectRatio)
+        const closestAspectRatio = Object.keys(aspectRatioObj).reduce((prev, curr) =>
+        Math.abs(curr - providedAspectRatio) < Math.abs(prev - providedAspectRatio)
         ? curr
         : prev
       );
@@ -63,7 +63,7 @@ class ContentItem extends React.PureComponent {
             'cui-content cui-content--failed' +
             `${(className && ` ${className}`) || ''}`
           }>
-            <div className="cui-content--failed-container">
+            <div className='cui-content--failed-container'>
               <i className='icon icon-warning_28 cui-content--failed-warning'/>
               <p className='cui-content--failed-message'>{failedText}</p>
             </div>

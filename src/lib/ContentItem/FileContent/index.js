@@ -99,7 +99,7 @@ const FileContentItem = props => {
       }
       {
         subtitle &&
-        <span key='subtitle' className="cui-content-file__subtitle">{subtitle}</span>
+        <span key='subtitle' className='cui-content-file__subtitle'>{subtitle}</span>
       }
     </div>
   </div>
