@@ -48,7 +48,7 @@ class ContentItem extends React.PureComponent {
           Math.abs(curr - providedAspectRatio) < Math.abs(prev - providedAspectRatio)
           ? curr
           : prev
-      );
+        );
 
         return aspectRatioObj[closestAspectRatio];
       }
