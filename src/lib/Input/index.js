@@ -539,15 +539,16 @@ export default function InputReadonly() {
 * @react
 import { Input } from '@collab-ui/react';
 
-export default function InputHelp() {
+export default function InputReadonly() {
   return (
     <div className='row'>
       <Input
-        name='inputHelpText'
-        label='Help Text Input'
-        htmlId='inputHelpText'
+        name='inputReadonly'
+        label='Read Only Input'
+        htmlId='inputReadonly'
         inputSize='small-5'
-        inputHelpText='Help Text'
+        value='Read Only Text'
+        readOnly
       />
     </div>
   );
