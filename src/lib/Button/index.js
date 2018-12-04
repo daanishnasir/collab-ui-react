@@ -417,7 +417,7 @@ export default function ButtonExpand() {
 * @react
 import { Button } from '@collab-ui/react';
 
-export default function ButtonDisabled() {
+export default function ButtonDefault() {
   return(
     <Button
       children='Test Me'
@@ -435,7 +435,7 @@ export default function ButtonDisabled() {
 * @react
 import { Button } from '@collab-ui/react';
 
-export default function ButtonLoading() {
+export default function ButtonDefault() {
   return(
     <Button
       children='Test Me'

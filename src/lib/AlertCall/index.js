@@ -184,7 +184,7 @@ export default class AlertCallDefault extends React.PureComponent {
     ]
   }
 
-  handleOnReject = key => {
+    handleOnReject = key => {
     console.log(`onRejectCall ${key}`);
     this.setState(state => {
       return { alertList: reject(state.alertList, {key}) };
