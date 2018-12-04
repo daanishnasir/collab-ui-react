@@ -139,7 +139,7 @@ export default function CheckboxDefault() {
 
 import { Checkbox, CheckboxGroup, InputHelper } from '@collab-ui/react';
 
-export default function CheckboxGroup() {
+export default function CheckboxGroupExample() {
 
   return (
     <CheckboxGroup name='CheckboxGroup1'>
