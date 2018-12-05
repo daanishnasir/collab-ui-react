@@ -529,12 +529,11 @@ export default function InputReadonly() {
   return (
     <div className='row'>
       <Input
-        name='inputReadonly'
-        label='Read Only Input'
-        htmlId='inputReadonly'
+        name='inputHelpText'
+        label='Help Text Input'
+        htmlId='inputHelpText'
         inputSize='small-5'
-        value='Read Only Text'
-        readOnly
+        inputHelpText='Help Text'
       />
     </div>
   );
