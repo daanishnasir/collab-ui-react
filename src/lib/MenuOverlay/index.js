@@ -138,7 +138,7 @@ import {
   MenuOverlay,
 } from '@collab-ui/react';
 
-export default class MenuOverlayDefault extends React.PureComponent {
+export default class CustomMenuItems extends React.PureComponent {
   onClick(event, value) {
     alert(`${value} clicked`);
   }
